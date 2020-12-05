@@ -9,6 +9,7 @@ public class Extinguisher : MonoBehaviour
     public Transform seal;
     private Vector3 startSealPos;
     public Transform[] grabbers;
+    private int indexHand;
 
     private void Start()
     {
