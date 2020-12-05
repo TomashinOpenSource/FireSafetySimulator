@@ -4,31 +4,21 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-    public Transform foam;
-    void Start()
-    {
-        
-    }
-
-    
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.transform.name);
-        if (other.transform.name == foam.name)
+        if (other.transform.GetComponent<Foam>())
         {
+            Debug.Log("Start Extingiush");
             StartCoroutine(Extingiush());
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == foam.name)
+        if (other.transform.GetComponent<Foam>())
         {
+            Debug.Log("Stop Extingiush");
             StopAllCoroutines();
         }
     }
@@ -36,7 +26,7 @@ public class Fire : MonoBehaviour
     private IEnumerator Extingiush()
     {
         Debug.Log("Extingiush");
-        float time = 3f;
+        int time = GameManager.ExtinguishingTime;
         while (time > 0)
         {
             time--;
