@@ -9,7 +9,7 @@ public class Extinguisher : MonoBehaviour
     public Transform seal;
     private Vector3 startSealPos;
     public Transform[] grabbers;
-    private int indexHand;
+    private int lastHand = -1;
 
     private void Start()
     {
@@ -19,17 +19,24 @@ public class Extinguisher : MonoBehaviour
     {
         ViveColliderButtonEventData viveEventData;
         if (!grabbedObj.grabbedEvent.TryGetViveButtonEventData(out viveEventData)) { return; }
-
+        int currentHand = viveEventData.viveRole.ToRole<HandRole>() == HandRole.RightHand ? 0 : 1;
         if (!GameManager.IsExtinguisherInHand)
         {
-            int index = viveEventData.viveRole.ToRole<HandRole>() == HandRole.RightHand ? 0 : 1;
-            grabbedObj.transform.SetParent(grabbers[index]);
+            grabbedObj.transform.SetParent(grabbers[currentHand]);
             GameManager.IsExtinguisherInHand = true;
+            lastHand = currentHand;
         }
         else
         {
-            transform.parent = null;
             GameManager.IsExtinguisherInHand = false;
+            if (lastHand == currentHand)
+            {
+                transform.parent = null;
+            }
+            else
+            {
+                OnGrabbed(grabbedObj);
+            }
         }
     }
     public void OnDrop()
