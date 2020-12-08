@@ -5,7 +5,7 @@ using HTC.UnityPlugin.Vive;
 
 public class Extinguisher : MonoBehaviour
 {
-    public GameObject foam;
+    public ParticleSystem foamParticle;
     public Transform seal;
     private Vector3 startSealPos;
     public Transform[] grabbers;
@@ -13,7 +13,7 @@ public class Extinguisher : MonoBehaviour
 
     private void Start()
     {
-        foam.SetActive(false);
+        foamParticle.Stop();
     }
     public void OnGrabbed(BasicGrabbable grabbedObj)
     {
@@ -57,9 +57,9 @@ public class Extinguisher : MonoBehaviour
     {
         if (GameManager.IsSealRemoved)
         {
-            foam.SetActive(!foam.activeSelf);
-            foam.GetComponent<CapsuleCollider>().isTrigger = foam.activeSelf;
-            if (!foam.activeSelf)
+            if (foamParticle.isPlaying) foamParticle.Stop();
+            else foamParticle.Play();
+            if (!foamParticle.isPlaying)
             {
                 foreach (var item in FindObjectsOfType<Fire>())
                 {
