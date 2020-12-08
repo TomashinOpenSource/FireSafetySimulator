@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.GetComponent<Foam>())
