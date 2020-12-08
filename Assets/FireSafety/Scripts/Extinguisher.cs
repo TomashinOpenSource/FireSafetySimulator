@@ -5,9 +5,19 @@ using HTC.UnityPlugin.Vive;
 
 public class Extinguisher : MonoBehaviour
 {
+    [Header("Система частиц пены")]
     public ParticleSystem foamParticle;
+
+    [Header("Чека")]
     public Transform seal;
     private Vector3 startSealPos;
+
+    [Header("Раструб")]
+    public Transform spray;
+    private Vector3 startSprayPos;
+    private Quaternion startSprayRot;
+
+    [Header("Джойстики для дочерности")]
     public Transform[] grabbers;
     private int lastHand = -1;
 
@@ -87,5 +97,16 @@ public class Extinguisher : MonoBehaviour
         {
             seal.position = startSealPos;
         }
+    }
+
+    public void OnTakeSpray()
+    {
+        startSprayPos = spray.position;
+        startSprayRot = spray.localRotation;
+    }
+    public void OnDropSpray()
+    {
+        spray.position = startSprayPos;
+        spray.localRotation = startSprayRot;
     }
 }
