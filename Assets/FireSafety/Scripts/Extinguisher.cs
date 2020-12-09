@@ -67,15 +67,20 @@ public class Extinguisher : MonoBehaviour
     {
         if (GameManager.IsSealRemoved)
         {
-            if (foamParticle.isPlaying) foamParticle.Stop();
-            else foamParticle.Play();
-            if (!foamParticle.isPlaying)
+            if (foamParticle.isPlaying)
             {
+                foamParticle.Stop();
+                foamParticle.transform.GetComponent<CapsuleCollider>().isTrigger = false;
                 foreach (var item in FindObjectsOfType<Fire>())
                 {
                     item.StopAllCoroutines();
                     Debug.Log("Stop Extingiush Global");
                 }
+            }
+            else
+            {
+                foamParticle.Play();
+                foamParticle.transform.GetComponent<CapsuleCollider>().isTrigger = true;
             }
         }
     }
